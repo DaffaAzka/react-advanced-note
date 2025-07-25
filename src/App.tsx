@@ -1,8 +1,19 @@
+import { useLocalstorage } from "./hooks/useLocalStorage";
 import { usePreline } from "./hooks/usePreline";
 
 export type Note = {
   id: string;
 } & NoteData;
+
+export type RawNote = {
+  id: string,
+} & RawNoteData
+
+export type RawNoteData = {
+  title: string;
+  body: string;
+  tagIds: string[];
+};
 
 export type NoteData = {
   title: string;
@@ -17,6 +28,9 @@ export type Tag = {
 
 function App() {
   usePreline();
+
+  const [notes, setNotes] = useLocalstorage<RawNote[]>("NOTES", [])
+  const [tags, setTags] = useLocalstorage<Tag[]>("TAGS", []);
 
   return (
     <>
